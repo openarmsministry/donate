@@ -18,6 +18,23 @@ set('shared_dirs', [
     'storage/logs',
 ]);
 
+/**
+ * Main task
+ */
+task('deploy', [
+    'deploy:prepare',
+    'deploy:release',
+    'deploy:update_code',
+    'deploy:shared',
+    'deploy:vendors',
+    'deploy:writable',
+    'deploy:symlink',
+    'cleanup',
+    'artisan:cache:clear',
+])->desc('Deploy your project');
+
+after('deploy', 'success');
+
 // Production Server
 server('prod1', 'prod.donate')
     ->configFile('/home/vagrant/.ssh/config')

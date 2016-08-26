@@ -41,7 +41,7 @@ class User extends Authenticatable
         $this->save();
         $this->sendNewCustomerEmail();
 
-        return this;
+        return $this;
     }
 
     public function newCustomerWithoutCard($data) {

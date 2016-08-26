@@ -22,15 +22,15 @@ Route::post('/payment', function (Request $request) {
     $name = $request->input('name');
     $email = $request->input('email');
     $amount = with(new App\Sanitizers\AmountSanitizer($request->input('amount')))->sanitize(); // in whole dollar
+    Log::info("got token: $token");
     $amountInCents = $amount * 100;
 
     $user = \App\User::where('email', $email)->first();
-
     if ($user) {
         $user->updateCard($token);
     } else {
         $newUser = new App\User();
-        $newUser->newCustomer($token, ['email' => $email], ['name'=>$name, 'password'=> uniqid()]);
+        $newUser->newCustomerWithCard($token, ['email' => $email], ['name'=>$name, 'password'=> uniqid()]);
         $user = $newUser;
     }
 
