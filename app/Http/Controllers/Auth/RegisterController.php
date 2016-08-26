@@ -63,12 +63,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = new User();
-        $user->newCustomerWithoutCard([
+        $newUser = $user->newCustomerWithoutCard([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
 
-        return $user;
+        return $newUser;
     }
 }

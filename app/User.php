@@ -40,6 +40,8 @@ class User extends Authenticatable
         $this->createAsStripeCustomer($token, $stripeAttributes);
         $this->save();
         $this->sendNewCustomerEmail();
+
+        return this;
     }
 
     public function newCustomerWithoutCard($data) {
@@ -57,6 +59,8 @@ class User extends Authenticatable
         $this->stripe_id = $customer->id;
 
         $this->save();
+
+        return $this;
     }
 
     public function sendNewCustomerEmail()
