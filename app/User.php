@@ -6,6 +6,7 @@ use App\Notifications\NewDonor as NewDonorNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
+use Stripe\Customer;
 
 class User extends Authenticatable
 {
@@ -30,7 +31,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function newCustomer($token, $stripeAttributes, $modelAttributes)
+    public function newCustomerWithCard($token, $stripeAttributes, $modelAttributes)
     {
 
         $this->email = $stripeAttributes['email'];
@@ -39,6 +40,23 @@ class User extends Authenticatable
         $this->createAsStripeCustomer($token, $stripeAttributes);
         $this->save();
         $this->sendNewCustomerEmail();
+    }
+
+    public function newCustomerWithoutCard($data) {
+        $name = $data['name'];
+        $email = $data['email'];
+        $password = $data['password'];
+
+        $customer = Customer::create(
+            compact('email'), $this->getStripeKey()
+        );
+
+        $this->name = $name;
+        $this->email = $email;
+        $this->password = $password;
+        $this->stripe_id = $customer->id;
+
+        $this->save();
     }
 
     public function sendNewCustomerEmail()

@@ -18,14 +18,6 @@ set('shared_dirs', [
     'storage/logs',
 ]);
 
-task('copy:dotenv', function () {
-    $sourceDotEnv = env('deploy_path') . '/.env';
-    $targetDotEnv = env('deploy_path') .'/shared/.env';
-    run("cp $sourceDotEnv $targetDotEnv");
-})->desc('Copying .env file from file published by CI WebOps');
-
-after('deploy:symlink', 'copy:dotenv');
-
 // Production Server
 server('prod1', 'prod.donate')
     ->configFile('/home/vagrant/.ssh/config')

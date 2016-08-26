@@ -1,29 +1,49 @@
 @extends('layouts.app')
-
+@section('head-script')
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+        Stripe.setPublishableKey('{{ config('services.stripe.key') }}');
+    </script>
+@show
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Your Donation Recepts</div>
-                <table class="table">
-                    <thead>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1">
+                @include('partials.current-card')
+            </div>
+            <div class="col-md-5">
+                @include('partials.setup-card')
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Your Donation Recepts</div>
+                    <div class="panel-body">You will find all of your donations via the Donate platform.</div>
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td>Date</td>
-                            <td>Total</td>
-                            <td>PDF</td>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>PDF</th>
                         </tr>
-                    </thead>
-                    @foreach ($invoices as $invoice)
-                        <tr>
-                            <td>{{ $invoice->date()->toFormattedDateString() }}</td>
-                            <td>{{ $invoice->total() }}</td>
-                            <td><a href="/user/invoice/{{ $invoice->id }}">Download</a></td>
-                        </tr>
-                    @endforeach
-                </table>
+                        </thead>
+                        <tbody>
+                        @foreach ($invoices as $invoice)
+                            <tr>
+                                <td>{{ $invoice->date()->toFormattedDateString() }}</td>
+                                <td>{{ $invoice->total() }}</td>
+                                <td><a href="/user/invoice/{{ $invoice->id }}">Download</a></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
+
+@section('body-script')
+    <script src="js/dashboard.js"></script>
+@show
