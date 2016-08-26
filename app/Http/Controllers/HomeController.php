@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,11 @@ class HomeController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $invoices = $user->invoices();
+        try {
+            $invoices = $user->invoices();
+        } catch (\Exception $e) {
+            $invoices = [];
+        }
 
         return view('home', compact('invoices', 'user'));
     }
