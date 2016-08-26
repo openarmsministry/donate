@@ -8,6 +8,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+            @include('partials.message')
+        </div>
+        <div class="row">
             <div class="col-md-5 col-md-offset-1">
                 @include('partials.current-card')
             </div>

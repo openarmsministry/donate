@@ -35,3 +35,41 @@ var card = new Card({
     // if true, will log helpful messages for setting up Card
     debug: false // optional - default false
 });
+
+let cardUpdateForm = document.querySelector('#update-card');
+let submitButton = cardUpdateForm.querySelector('.submit');
+let tokenField = cardUpdateForm.querySelector('#token');
+let numberField = cardUpdateForm.querySelector('#number');
+let cvcField = cardUpdateForm.querySelector('#cvc');
+let expiryField = cardUpdateForm.querySelector('#expiry');
+
+cardUpdateForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    submitButton.disabled = true
+    let expiryArray = expiryField.value.split(' / ');
+
+    let month = expiryArray[0];
+    let year = expiryArray[1];
+
+    let cardData = {
+        number: numberField.value,
+        cvc: cvcField.value,
+        exp_month: month,
+        exp_year: year,
+    }
+
+    Stripe.card.createToken(cardData, (status, response) => {
+        if (response.error) { // Problem!
+
+        } else { // Token was created!
+
+            // Get the token ID:
+            var token = response.id;
+            console.log(token)
+            tokenField.value = token
+
+            cardUpdateForm.submit()
+        }
+
+    });
+});

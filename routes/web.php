@@ -25,3 +25,9 @@ Route::get('user/invoice/{invoice}', function ($invoiceId) {
         'product' => 'One Time Donation',
     ]);
 });
+
+Route::post('card/update', function (\Illuminate\Http\Request $request) {
+    $token = $request->input('token');
+    Auth::user()->updateCard($token);
+    return redirect('home')->with(['success' => 'Your card has been updated']);
+});
