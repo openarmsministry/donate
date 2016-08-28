@@ -22,7 +22,6 @@ Route::post('/payment', function (Request $request) {
     $name = $request->input('name');
     $email = $request->input('email');
     $amount = with(new App\Sanitizers\AmountSanitizer($request->input('amount')))->sanitize(); // in whole dollar
-    Log::info("got token: $token");
     $amountInCents = $amount * 100;
 
     $user = \App\User::where('email', $email)->first();
@@ -35,7 +34,7 @@ Route::post('/payment', function (Request $request) {
     }
 
     try {
-        $user->invoiceFor('One Time Donation', $amountInCents);
+        $user->charge($amountInCents);
     } catch (Exception $e) {
         return response()->json(['status' => $e->getMessage()], $e->getCode());
     }
