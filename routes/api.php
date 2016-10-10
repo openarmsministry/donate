@@ -34,7 +34,7 @@ Route::post('/payment', function (Request $request) {
     }
 
     try {
-        $user->charge($amountInCents);
+        $user->invoiceFor('One Time Donation', $amountInCents);
     } catch (Exception $e) {
         return response()->json(['status' => $e->getMessage()], $e->getCode());
     }

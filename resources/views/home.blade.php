@@ -41,10 +41,8 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Your Recurring Donation Invoices/Receipts</div>
-                    <div class="panel-body">Below you will find all the receipts for the recurring contributions you
-                        have made. Please note that this does not include the one-time contributions you have made, nor
-                        any other contributions you have made via cash or checks.
+                    <div class="panel-heading">Your Receipts</div>
+                    <div class="panel-body">Below you will find all the receipts for the financial contributions you have made through the Open Arms Ministry Donation Platform.
                     </div>
                     <table class="table">
                         <thead>
