@@ -33,12 +33,16 @@ Route::post('card/update', function (\Illuminate\Http\Request $request) {
 });
 Route::post('donation', function (\Illuminate\Http\Request $request) {
     $amount = with(new App\Sanitizers\AmountSanitizer($request->input('amount')))->sanitize(); // in whole dollar
+    if ($amount <= 0) {
+        return redirect()->back()->with(['error' => 'Please input a numeric value.']);
+    }
+
     $amountInCents = $amount * 100;
 
     $user = Auth::user();
 
     try {
-        $user->charge($amountInCents);
+        $user->invoiceFor('One Time Donation', $amountInCents);
     } catch(\Exception $e) {
         if ( str_contains($e->getMessage(), 'has no attached payment source') ) {
             return redirect('home')->with(['error' => 'It looks like you do not have a credit/debit card set up.  Please set up a card first.']);
