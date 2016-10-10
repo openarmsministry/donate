@@ -14,6 +14,15 @@
             <br>
             <input class="btn btn-primary submit" type="submit" value="Submit">
         </form>
+        <hr>
+        <p>
+            You can cancel your subscription by clicking on the button below.
+        </p>
+        <form id="delete-subscription" action="{{'subscription'}}" method="post">
+            {{ csrf_field() }}
+            {{ method_field('delete') }}
+            <input class="btn btn-danger submit" type="submit" value="Cancel Now">
+        </form>
     </div>
 </div>
 

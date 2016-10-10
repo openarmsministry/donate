@@ -52,7 +52,12 @@ Route::post('subscription', function (\Illuminate\Http\Request $request) {
     $amount = $request->input('amount');
     $user = Auth::user();
     try {
-        $user->newSubscription('flexible', 'flexible')->quantity($amount)->create();
+        $subscription = $user->newSubscription('flexible', 'flexible')->quantity($amount)->create();
+
+        $stripeSubscription = $subscription->asStripeSubscription();
+        $stripeSubscription->prorate = false;
+        $stripeSubscription->save();
+
     } catch(\Exception $e) {
         if ( str_contains($e->getMessage(), 'has no attached payment source') ) {
             return redirect('home')->with(['error' => 'It looks like you do not have a credit/debit card set up.  Please set up a card first.']);
@@ -62,9 +67,26 @@ Route::post('subscription', function (\Illuminate\Http\Request $request) {
     return redirect('home')->with(['success' => 'your recurring donation is set up.']);
 });
 
+Route::delete('subscription', function () {
+    $user = Auth::user();
+    $user->subscription('flexible')->cancelNow();
+    return redirect('home')->with(['success' => 'your recurring donation has been canceled.']);
+});
+
 Route::post('subscription/update', function (\Illuminate\Http\Request $request) {
+    /**
+     * @var $user \App\User
+     * @var $model \Laravel\Cashier\Subscription
+     */
     $amount = $request->input('amount');
     $user = Auth::user();
-    $user->subscription('flexible', 'flexible')->updateQuantity($amount);
+    $model = $user->subscription('flexible');
+    $subscription = $model->asStripeSubscription();
+    $subscription->quantity = $amount;
+    $subscription->prorate = false;
+    $subscription->save();
+    $model->quantity = $amount;
+    $model->save();
+
     return redirect('home')->with(['success' => "your recurring donation is updated.  Your card will be charged \$$amount the next cycle."]);
 });
