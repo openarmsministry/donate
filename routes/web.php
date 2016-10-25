@@ -53,7 +53,12 @@ Route::post('donation', function (\Illuminate\Http\Request $request) {
 });
 
 Route::post('subscription', function (\Illuminate\Http\Request $request) {
-    $amount = $request->input('amount');
+    $inputAmount = $request->input('amount');
+    $sanitizedFloat = with(new App\Sanitizers\AmountSanitizer($inputAmount))->sanitize();
+    $amount = floor($sanitizedFloat);
+    if ($amount <= 0) {
+        return redirect()->back()->with(['error' => 'Please input a numeric value greater than 1.']);
+    }
     $user = Auth::user();
     try {
         $subscription = $user->newSubscription('flexible', 'flexible')->quantity($amount)->create();
@@ -82,7 +87,12 @@ Route::post('subscription/update', function (\Illuminate\Http\Request $request) 
      * @var $user \App\User
      * @var $model \Laravel\Cashier\Subscription
      */
-    $amount = $request->input('amount');
+    $inputAmount = $request->input('amount');
+    $sanitizedFloat = with(new App\Sanitizers\AmountSanitizer($inputAmount))->sanitize();
+    $amount = floor($sanitizedFloat);
+    if ($amount <= 0) {
+        return redirect()->back()->with(['error' => 'Please input a numeric value greater than 1.']);
+    }
     $user = Auth::user();
     $model = $user->subscription('flexible');
     $subscription = $model->asStripeSubscription();

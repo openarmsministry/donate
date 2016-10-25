@@ -8,7 +8,7 @@
             <label for="amount">Monthly Contribution</label>
             <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input type="tel" name="amount" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="tel" placeholder="Full Dollar Amount" name="amount" class="form-control" aria-label="Amount (to the nearest dollar)">
                 <span class="input-group-addon">.00</span>
             </div>
             <br>
