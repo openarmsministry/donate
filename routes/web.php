@@ -82,6 +82,10 @@ Route::delete('subscription', function () {
     return redirect('home')->with(['success' => 'your recurring donation has been canceled.']);
 });
 
+Route::get('faq', function () {
+  return view('faq');
+});
+
 Route::post('subscription/update', function (\Illuminate\Http\Request $request) {
     /**
      * @var $user \App\User

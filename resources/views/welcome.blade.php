@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Donate OAM</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -55,10 +55,10 @@
                 font-size: 12px;
                 font-weight: 600;
                 letter-spacing: .1rem;
-                text-decoration: none;
                 text-transform: uppercase;
+                text-decoration: none;
             }
-
+            
             .m-b-md {
                 margin-bottom: 30px;
             }
@@ -70,6 +70,7 @@
                 <div class="top-right links">
                     <a href="{{ url('/login') }}">Login</a>
                     <a href="{{ url('/register') }}">Register</a>
+                    <a href="https://openarmsministry.org">Homepage</a>
                 </div>
             @endif
 
@@ -79,7 +80,8 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{url('home')}}">Start Managing your Donations</a>
+                  <a href="/faq">FAQ</a>
+                    <a href="{{url('home')}}">Manage your Donations</a>
                 </div>
             </div>
         </div>

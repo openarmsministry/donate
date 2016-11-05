@@ -55,6 +55,9 @@
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
                         <li>
+                            <a href="https://openarmsministry.org">OAM Webpage</a>
+                        </li>
+                        <li>
                             <a href="{{ url('/logout') }}"
                                onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
@@ -65,6 +68,7 @@
                                 {{ csrf_field() }}
                             </form>
                         </li>
+                        
                     @endif
                 </ul>
             </div>
