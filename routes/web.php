@@ -108,3 +108,25 @@ Route::post('subscription/update', function (\Illuminate\Http\Request $request) 
 
     return redirect('home')->with(['success' => "your recurring donation is updated.  Your card will be charged \$$amount the next cycle."]);
 });
+
+Route::post('users/address', function (\Illuminate\Http\Request $request) {
+    $user = Auth::user();
+    $user->address_line_one = $request->get('line_one');
+    $user->address_line_two = $request->get('line_two');
+    $user->address_city = $request->get('city');
+    $user->address_state = $request->get('state');
+    $user->address_zip = $request->get('zip');
+    $user->save();
+
+    $customer = $user->asStripeCustomer();
+    $customer->metadata = [
+        'name' => $user->name,
+        'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
+        'address_line2' => trim($user->address_line_two) ? $user->address_line_two : null,
+        'address_city' => trim($user->address_city) ? $user->address_city: null,
+        'address_state' => trim($user->address_state) ? $user->address_state: null,
+        'address_zip' => trim($user->address_zip) ? $user->address_zip: null
+    ];
+    $customer->save();
+    return redirect('home')->with(['success' => "Thank you! Your mailing address is updated"]);
+});

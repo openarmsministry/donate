@@ -73,3 +73,28 @@ cardUpdateForm.addEventListener('submit', (event) => {
 
     });
 });
+
+$('#address-state').val($('#address-state').data('val'))
+$('#edit-address-btn').on('click', function (evt) {
+    $('#current-address').addClass('hidden')
+    $('#update-address').removeClass('hidden')
+})
+
+$('#add-address-btn').on('click', function (evt) {
+    $('#current-address').addClass('hidden')
+    $('#update-address').removeClass('hidden')
+})
+
+$('#cancel-address-btn').on('click', function (evt) {
+    evt.preventDefault()
+    $('#update-address').addClass('hidden')
+    $('#current-address').removeClass('hidden')
+})
+
+$('#submit-address-btn').on('click', function (evt) {
+    evt.preventDefault()
+    var button = $('#submit-address-btn');
+    button.append('<i class="fa fa-spinner fa-spin fa-fw"></i>')
+    button.prop('disabled', true);
+    $('#update-address-form').submit();
+})

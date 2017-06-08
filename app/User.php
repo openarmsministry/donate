@@ -70,4 +70,9 @@ class User extends Authenticatable
         $this->notify(new NewDonorNotification($token));
     }
 
+    public function hasAddress()
+    {
+        return !! $this->address_line_one;
+    }
+
 }

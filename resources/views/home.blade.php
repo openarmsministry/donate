@@ -4,7 +4,7 @@
     <script type="text/javascript">
         Stripe.setPublishableKey('{{ config('services.stripe.key') }}');
     </script>
-@show
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -33,6 +33,8 @@
         <div class="row">
             <div class="col-md-5 col-md-offset-1">
                 @include('partials.current-card')
+                @include('partials.current-address')
+                @include('partials.update-address')
             </div>
             <div class="col-md-5">
                 @include('partials.setup-card')
@@ -70,4 +72,4 @@
 
 @section('body-script')
     <script src="js/dashboard.js"></script>
-@show
+@endsection
