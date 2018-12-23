@@ -11,6 +11,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <!-- TODO: Move these to the css folder before this file explodes. -->
         <style>
             html, body {
                 background-color: #fff;
@@ -20,6 +21,12 @@
                 height: 100vh;
                 margin: 0;
             }
+
+            /* .homepage-image {
+                background: url("/images/homepage.jpg");
+                background-size: cover;
+                opacity: 0.75;
+            } */
 
             .full-height {
                 height: 100vh;
@@ -43,6 +50,8 @@
 
             .content {
                 text-align: center;
+                /* color: black;
+                mix-blend-mode: difference; */
             }
 
             .title {
@@ -51,6 +60,8 @@
 
             .links > a {
                 color: #636b6f;
+                /* color: black;
+                mix-blend-mode: difference; */
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -65,6 +76,7 @@
         </style>
     </head>
     <body>
+        <!-- <div class="flex-center position-ref full-height homepage-image"> -->
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
