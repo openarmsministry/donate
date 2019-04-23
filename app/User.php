@@ -75,14 +75,4 @@ class User extends Authenticatable
         return !! $this->address_line_one;
     }
 
-    public function getFirstName()
-    {
-        return head(explode(' ', trim($this->name)));
-    }
-
-    public function getLastName()
-    {
-        $splitName = explode(' ', trim($this->name));
-        return empty($splitName[1]) ? NULL : $splitName[1];
-    }
 }

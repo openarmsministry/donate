@@ -32,8 +32,6 @@
 
         <div class="row">
             <div class="col-md-5 col-md-offset-1">
-                @include('partials.current-name')
-                @include('partials.update-name')
                 @include('partials.current-card')
                 @include('partials.current-address')
                 @include('partials.update-address')

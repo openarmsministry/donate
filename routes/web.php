@@ -109,26 +109,6 @@ Route::post('subscription/update', function (\Illuminate\Http\Request $request) 
     return redirect('home')->with(['success' => "your recurring donation is updated.  Your card will be charged \$$amount the next cycle."]);
 });
 
-Route::post('users/name', function (\Illuminate\Http\Request $request) {
-    $user = Auth::user();
-    $user->name = $request->get('new_name');
-    $user->save();
-
-    $customer = $user->asStripeCustomer();
-    $customer->metadata = [
-        'name' => $user->name,
-        'first_name' => $user->getFirstName(),
-        'last_name' => $user->getLastName(),
-        'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
-        'address_line2' => trim($user->address_line_two) ? $user->address_line_two : null,
-        'address_city' => trim($user->address_city) ? $user->address_city: null,
-        'address_state' => trim($user->address_state) ? $user->address_state: null,
-        'address_zip' => trim($user->address_zip) ? $user->address_zip: null
-    ];
-    $customer->save();
-    return redirect('home')->with(['success' => "Thank you! Your name is updated"]);
-});
-
 Route::post('users/address', function (\Illuminate\Http\Request $request) {
     $user = Auth::user();
     $user->address_line_one = $request->get('line_one');
@@ -141,8 +121,6 @@ Route::post('users/address', function (\Illuminate\Http\Request $request) {
     $customer = $user->asStripeCustomer();
     $customer->metadata = [
         'name' => $user->name,
-        'first_name' => $user->getFirstName(),
-        'last_name' => $user->getLastName(),
         'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
         'address_line2' => trim($user->address_line_two) ? $user->address_line_two : null,
         'address_city' => trim($user->address_city) ? $user->address_city: null,
