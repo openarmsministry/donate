@@ -74,6 +74,25 @@ cardUpdateForm.addEventListener('submit', (event) => {
     });
 });
 
+$('#edit-name-btn').on('click', function (evt) {
+    $('#current-name').addClass('hidden')
+    $('#update-name').removeClass('hidden')
+})
+
+$('#cancel-name-btn').on('click', function (evt) {
+    evt.preventDefault()
+    $('#update-name').addClass('hidden')
+    $('#current-name').removeClass('hidden')
+})
+
+$('#submit-name-btn').on('click', function (evt) {
+    evt.preventDefault()
+    var button = $('#submit-name-btn');
+    button.append('<i class="fa fa-spinner fa-spin fa-fw"></i>')
+    button.prop('disabled', true);
+    $('#update-name-form').submit();
+})
+
 $('#address-state').val($('#address-state').data('val'))
 $('#edit-address-btn').on('click', function (evt) {
     $('#current-address').addClass('hidden')
