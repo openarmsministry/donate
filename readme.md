@@ -9,6 +9,15 @@ This is the donation platform for [Open Arms Ministry](https://openarmsministry.
 * Monthly contribution
 * Download all donations made on the platform
 
+## Getting Started with Dev
+### Setup
+* `composer install`
+* `artisan migrate`
+* `artisan db:seed`
+
+### Transpile Public Assets
+* Run `npm run prod`
+
 ## Software used
 * Laravel 5.3 (PHP)
 * Cashier package
