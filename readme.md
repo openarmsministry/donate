@@ -10,7 +10,7 @@ This is the donation platform for [Open Arms Ministry](https://openarmsministry.
 * Download all donations made on the platform
 
 ## Software used
-* Laravel (PHP)
+* Laravel 5.3 (PHP)
 * Cashier package
 * Stripe (for Credit Card processing)
 
