@@ -13,3 +13,7 @@ This is the donation platform for [Open Arms Ministry](https://openarmsministry.
 * Laravel (PHP)
 * Cashier package
 * Stripe (for Credit Card processing)
+
+## Contributors
+* Blair Wang
+* Hao Luo
