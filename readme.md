@@ -12,8 +12,9 @@ This is the donation platform for [Open Arms Ministry](https://openarmsministry.
 ## Getting Started with Dev
 ### Setup
 * `composer install`
-* `artisan migrate`
-* `artisan db:seed`
+* `php artisan key:generate`
+* `php artisan migrate`
+* `php artisan db:seed`
 
 ### Transpile Public Assets
 * Run `npm run prod`
