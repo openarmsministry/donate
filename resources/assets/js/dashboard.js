@@ -46,7 +46,7 @@ let expiryField = cardUpdateForm.querySelector('#expiry');
 cardUpdateForm.addEventListener('submit', (event) => {
     event.preventDefault()
     submitButton.disabled = true
-    let expiryArray = expiryField.value.split(' / ');
+    let expiryArray = expiryField.value.replace(/\s/g,'').split('/');
 
     let month = expiryArray[0];
     let year = expiryArray[1];
