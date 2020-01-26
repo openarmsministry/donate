@@ -1,4 +1,4 @@
-<div id="current-name" class="panel panel-default">
+<div id="current-name" class="panel panel-default {{ $errors->hasAny(array('new_first_name', 'new_last_name')) ? 'hidden' : '' }}">
     <div class="panel-heading">
         <h3 class="panel-title">Your Name</h3>
     </div>

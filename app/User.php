@@ -31,28 +31,38 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function newCustomerWithCard($token, $stripeAttributes, $modelAttributes)
-    {
+    // TODO: delete this
+    // public function newCustomerWithCard($token, $stripeAttributes, $modelAttributes)
+    // {
 
-        $this->email = $stripeAttributes['email'];
-        $this->name = $modelAttributes['name'];
-        $this->password = \Hash::make($modelAttributes['password']);
-        $this->createAsStripeCustomer($token, $stripeAttributes);
-        $this->save();
-        $this->sendNewCustomerEmail();
+    //     $this->email = $stripeAttributes['email'];
+    //     $this->name = $modelAttributes['name'];
+    //     $this->password = \Hash::make($modelAttributes['password']);
+    //     $this->createAsStripeCustomer($token, $stripeAttributes);
+    //     $this->save();
+    //     $this->sendNewCustomerEmail();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function newCustomerWithoutCard($data) {
-        $name = $data['name'];
+        $firstName = $data['first_name'];
+        $lastName = $data['last_name'];
+        $name = $firstName . ' ' . $lastName;
         $email = $data['email'];
         $password = $data['password'];
 
         $customer = Customer::create(
             compact('email'), $this->getStripeKey()
         );
+        $customer->metadata = [
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ];
+        $customer->save();
 
+        $this->first_name = $firstName;
+        $this->last_name = $lastName;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
@@ -73,16 +83,5 @@ class User extends Authenticatable
     public function hasAddress()
     {
         return !! $this->address_line_one;
-    }
-
-    public function getFirstName()
-    {
-        return head(explode(' ', trim($this->name)));
-    }
-
-    public function getLastName()
-    {
-        $splitName = explode(' ', trim($this->name));
-        return empty($splitName[1]) ? NULL : $splitName[1];
     }
 }

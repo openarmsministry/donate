@@ -1,5 +1,7 @@
 <?php
 
+use Validator;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -110,15 +112,22 @@ Route::post('subscription/update', function (\Illuminate\Http\Request $request) 
 });
 
 Route::post('users/name', function (\Illuminate\Http\Request $request) {
+    Validator::make($request->all(), [
+        'new_first_name' => 'required|max:255',
+        'new_last_name' => 'required|max:255'
+    ])->validate();
+
     $user = Auth::user();
-    $user->name = $request->get('new_name');
+    $user->first_name = $request->get('new_first_name');
+    $user->last_name = $request->get('new_last_name');
+    $user->name = $user->first_name . ' ' . $user->last_name; 
     $user->save();
 
     $customer = $user->asStripeCustomer();
     $customer->metadata = [
         'name' => $user->name,
-        'first_name' => $user->getFirstName(),
-        'last_name' => $user->getLastName(),
+        'first_name' => trim($user->first_name) ? $user->first_name : null,
+        'last_name' => trim($user->last_name) ? $user->last_name : null,
         'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
         'address_line2' => trim($user->address_line_two) ? $user->address_line_two : null,
         'address_city' => trim($user->address_city) ? $user->address_city: null,
@@ -141,8 +150,8 @@ Route::post('users/address', function (\Illuminate\Http\Request $request) {
     $customer = $user->asStripeCustomer();
     $customer->metadata = [
         'name' => $user->name,
-        'first_name' => $user->getFirstName(),
-        'last_name' => $user->getLastName(),
+        'first_name' => trim($user->first_name) ? $user->first_name : null,
+        'last_name' => trim($user->last_name) ? $user->last_name : null,
         'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
         'address_line2' => trim($user->address_line_two) ? $user->address_line_two : null,
         'address_city' => trim($user->address_city) ? $user->address_city: null,

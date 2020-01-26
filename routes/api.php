@@ -13,31 +13,32 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/test', function (Request $request) {
-    return response()->json(['data' => 'hi!!!']);
-});
+// TODO: delete these
+// Route::get('/test', function (Request $request) {
+//     return response()->json(['data' => 'hi!!!']);
+// });
 
-Route::post('/payment', function (Request $request) {
-    $token = $request->input('token');
-    $name = $request->input('name');
-    $email = $request->input('email');
-    $amount = with(new App\Sanitizers\AmountSanitizer($request->input('amount')))->sanitize(); // in whole dollar
-    $amountInCents = $amount * 100;
+// Route::post('/payment', function (Request $request) {
+//     $token = $request->input('token');
+//     $name = $request->input('name');
+//     $email = $request->input('email');
+//     $amount = with(new App\Sanitizers\AmountSanitizer($request->input('amount')))->sanitize(); // in whole dollar
+//     $amountInCents = $amount * 100;
 
-    $user = \App\User::where('email', $email)->first();
-    if ($user) {
-        $user->updateCard($token);
-    } else {
-        $newUser = new App\User();
-        $newUser->newCustomerWithCard($token, ['email' => $email], ['name'=>$name, 'password'=> uniqid()]);
-        $user = $newUser;
-    }
+//     $user = \App\User::where('email', $email)->first();
+//     if ($user) {
+//         $user->updateCard($token);
+//     } else {
+//         $newUser = new App\User();
+//         $newUser->newCustomerWithCard($token, ['email' => $email], ['name'=>$name, 'password'=> uniqid()]);
+//         $user = $newUser;
+//     }
 
-    try {
-        $user->invoiceFor('One Time Donation', $amountInCents);
-    } catch (Exception $e) {
-        return response()->json(['status' => $e->getMessage()], $e->getCode());
-    }
+//     try {
+//         $user->invoiceFor('One Time Donation', $amountInCents);
+//     } catch (Exception $e) {
+//         return response()->json(['status' => $e->getMessage()], $e->getCode());
+//     }
 
-    return response()->json(['status' => 'Successful']);
-});
+//     return response()->json(['status' => 'Successful']);
+// });
