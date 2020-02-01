@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -63,7 +63,6 @@ class User extends Authenticatable
 
         $this->first_name = $firstName;
         $this->last_name = $lastName;
-        $this->name = $name;
         $this->email = $email;
         $this->password = $password;
         $this->stripe_id = $customer->id;
