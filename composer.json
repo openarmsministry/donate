@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "laravel/cashier": "^7.0",
         "guzzlehttp/guzzle": "^6.2",
-        "barryvdh/laravel-cors": "^0.8.2"
+        "barryvdh/laravel-cors": "^0.8.2",
+        "doctrine/dbal": "^2.10"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

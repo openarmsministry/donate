@@ -4,6 +4,6 @@
     </div>
     <div class="panel-body">
         <button id="edit-name-btn" class="btn" style="float:right" ><i class="fa fa-pencil"></i> Edit</button>
-        <p>{{$user->name}}</p>
+        <p>{{$user->first_name . ' ' . $user->last_name}}</p>
     </div>
 </div>

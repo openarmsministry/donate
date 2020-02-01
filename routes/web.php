@@ -118,12 +118,10 @@ Route::post('users/name', function (\Illuminate\Http\Request $request) {
     $user = Auth::user();
     $user->first_name = $request->get('new_first_name');
     $user->last_name = $request->get('new_last_name');
-    $user->name = $user->first_name . ' ' . $user->last_name; 
     $user->save();
 
     $customer = $user->asStripeCustomer();
     $customer->metadata = [
-        'name' => $user->name,
         'first_name' => trim($user->first_name) ? $user->first_name : null,
         'last_name' => trim($user->last_name) ? $user->last_name : null,
         'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
@@ -147,7 +145,6 @@ Route::post('users/address', function (\Illuminate\Http\Request $request) {
 
     $customer = $user->asStripeCustomer();
     $customer->metadata = [
-        'name' => $user->name,
         'first_name' => trim($user->first_name) ? $user->first_name : null,
         'last_name' => trim($user->last_name) ? $user->last_name : null,
         'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
