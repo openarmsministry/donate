@@ -1,5 +1,7 @@
 <?php
 
+use Validator;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -109,6 +111,33 @@ Route::post('subscription/update', function (\Illuminate\Http\Request $request) 
     return redirect('home')->with(['success' => "your recurring donation is updated.  Your card will be charged \$$amount the next cycle."]);
 });
 
+Route::post('users/name', function (\Illuminate\Http\Request $request) {
+    Validator::make($request->all(), [
+        'new_first_name' => 'required|max:255',
+        'new_last_name' => 'required|max:255'
+    ])->validate();
+
+    $user = Auth::user();
+    $user->first_name = $request->get('new_first_name');
+    $user->last_name = $request->get('new_last_name');
+    $user->name = $user->first_name . ' ' . $user->last_name; 
+    $user->save();
+
+    $customer = $user->asStripeCustomer();
+    $customer->metadata = [
+        'name' => $user->name,
+        'first_name' => trim($user->first_name) ? $user->first_name : null,
+        'last_name' => trim($user->last_name) ? $user->last_name : null,
+        'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
+        'address_line2' => trim($user->address_line_two) ? $user->address_line_two : null,
+        'address_city' => trim($user->address_city) ? $user->address_city: null,
+        'address_state' => trim($user->address_state) ? $user->address_state: null,
+        'address_zip' => trim($user->address_zip) ? $user->address_zip: null
+    ];
+    $customer->save();
+    return redirect('home')->with(['success' => "Thank you! Your name is updated"]);
+});
+
 Route::post('users/address', function (\Illuminate\Http\Request $request) {
     $user = Auth::user();
     $user->address_line_one = $request->get('line_one');
@@ -121,6 +150,8 @@ Route::post('users/address', function (\Illuminate\Http\Request $request) {
     $customer = $user->asStripeCustomer();
     $customer->metadata = [
         'name' => $user->name,
+        'first_name' => trim($user->first_name) ? $user->first_name : null,
+        'last_name' => trim($user->last_name) ? $user->last_name : null,
         'address_line1' => trim($user->address_line_one) ? $user->address_line_one : null,
         'address_line2' => trim($user->address_line_two) ? $user->address_line_two : null,
         'address_city' => trim($user->address_city) ? $user->address_city: null,
