@@ -53,7 +53,7 @@ class User extends Authenticatable
         $password = $data['password'];
 
         $customer = Customer::create(
-            compact('email'), $this->getStripeKey()
+            compact('name', 'email'), $this->getStripeKey()
         );
         $customer->metadata = [
             'first_name' => $firstName,

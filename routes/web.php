@@ -121,6 +121,7 @@ Route::post('users/name', function (\Illuminate\Http\Request $request) {
     $user->save();
 
     $customer = $user->asStripeCustomer();
+    $customer->name = $user->first_name . ' ' . $user->last_name;
     $customer->metadata = [
         'first_name' => trim($user->first_name) ? $user->first_name : null,
         'last_name' => trim($user->last_name) ? $user->last_name : null,
