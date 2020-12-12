@@ -1,0 +1,94 @@
+version: '3'
+services:
+  selenium:
+    image: selenium/standalone-chrome:latest
+    depends_on:
+      - laravel
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - appnet
+  web:
+    image: nginx:latest
+    ports:
+      - 80:1337
+    volumes:
+      - ./nginx/server.conf:/etc/nginx/conf.d/site.conf:ro
+      - ../..:/code:ro
+    depends_on:
+      - laravel
+      - postgres
+    networks:
+      - appnet
+  laravel:
+    build:
+      context: ../..
+      dockerfile: ./environments/local/Dockerfile
+      args:
+        user: app
+        uid: 1000
+    working_dir: /code
+    volumes:
+      - ../..:/code:delegated
+    networks:
+      - appnet
+  postgres:
+    image: postgres:11
+    restart: always
+    env_file:
+      - ./local-db.env
+    # environment:
+    #   POSTGRES_DB: ${DB_DATABASE}
+    #   POSTGRES_USER: ${DB_USERNAME}
+    #   POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 54320:5432
+    networks:
+      - appnet
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
+      - donate_dbdata:/var/lib/postgresql/data:delegated
+  mail:
+    image: mailhog/mailhog
+    user: root
+    networks:
+      - appnet
+    expose:
+      - 1025
+      - 8025
+    ports:
+      - 8025:8025
+    healthcheck:
+      test: echo | telnet 127.0.0.1 1025
+  minio:
+    image: minio/minio
+    ports:
+      - 9000:9000
+    networks:
+      - appnet
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: miniosecret
+    command: server /data
+    volumes:
+      - donate_miniodata:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - appnet
+    ports:
+      - 8080:8080
+networks:
+  appnet:
+    driver: bridge
+volumes:
+  donate_dbdata:
+    driver: local
+  donate_miniodata:
+    driver: local
