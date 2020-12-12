@@ -4,7 +4,7 @@ FROM php:7.1-fpm
 ARG user
 ARG uid
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
