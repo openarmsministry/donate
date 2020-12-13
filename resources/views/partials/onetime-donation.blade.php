@@ -11,7 +11,7 @@
                 <input type="tel" name="amount" class="form-control" aria-label="Amount (to the nearest dollar)">
             </div>
             <br>
-            <input class="btn btn-primary submit" type="submit" value="Submit">
+            <input id="onetime-donate-button" class="btn btn-primary submit" type="submit" value="Submit">
         </form>
     </div>
 </div>

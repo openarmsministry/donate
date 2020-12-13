@@ -74,6 +74,14 @@ cardUpdateForm.addEventListener('submit', (event) => {
     });
 });
 
+const onetimeDonateForm = document.querySelector('#onetime-donation')
+const onetimeSubmitButton = onetimeDonateForm.querySelector('#onetime-donate-button')
+
+onetimeDonateForm.addEventListener('submit', (event) => {
+    onetimeSubmitButton.disabled = true
+    onetimeSubmitButton.value = 'Submitting...'
+})
+
 $('#edit-name-btn').on('click', function (evt) {
     $('#current-name').addClass('hidden')
     $('#update-name').removeClass('hidden')
